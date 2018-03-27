@@ -21,6 +21,8 @@ namespace Acme.Biz.Tests
                 ProductName = "Acme",
                 Description = "test description"
             };
+            product.ProductVendor.CompanyName = "Acme Inc.";
+
             var expected = $"Hello Acme (1): test description";
 
             //Act
@@ -42,6 +44,22 @@ namespace Acme.Biz.Tests
 
             //Assert
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Product_Null()
+        {
+            //Arrange
+            Product product = null;
+            var companyName = product?.ProductVendor?.CompanyName;
+            string expected = null;
+
+            //Act
+            var actual = companyName;
+            
+            //Assert
+            Assert.AreEqual(expected, actual);
+
         }
     }
 }

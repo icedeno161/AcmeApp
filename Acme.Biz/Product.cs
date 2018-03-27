@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acme.Common;
+using static Acme.Common.LoggingService;
 
 namespace Acme.Biz
 {
@@ -15,8 +17,13 @@ namespace Acme.Biz
         private string description;
         private int productId;
 
+        #region Constructors
+
+        
         public Product()
         {
+            //ProductVendor = new Vendor();
+
             Console.WriteLine("Product instance created");
         }
 
@@ -28,7 +35,10 @@ namespace Acme.Biz
 
             Console.WriteLine($"Product instance has a name: {ProductName}");
         }
+        #endregion
 
+        #region Properties
+        
         public string ProductName
         {
             get { return productName; }
@@ -47,9 +57,32 @@ namespace Acme.Biz
             set { productId = value; }
         }
 
+        public Vendor ProductVendor {
+            get
+            {
+                return ProductVendor ?? new Vendor();
+            }
+            set { ProductVendor = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
         public string SayHello()
         {
+            //var vendor = new Vendor();
+            var emailService = new EmailService();
+
+            string confirmation;
+            string result;
+
+            //vendor.SendWelcomeEmail("Message from Product");
+            confirmation = emailService.SendMessage("New Product", this.ProductName, "sales@abc.com");
+            result = LogAction("saying hello");
+
             return $"Hello {ProductName} ({ProductId}): {Description}";
         }
+        #endregion
     }
 }
