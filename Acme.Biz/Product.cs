@@ -100,11 +100,16 @@ namespace Acme.Biz
 
         public string ProductCode => $"{Category}: {SequenceNumber}";
         public DateTime? AvailabilityDate { get; set; }
+        public decimal Cost { get; set; }
+
         public string ValidationMessage { get; private set; }
 
         #endregion
 
         #region Methods
+
+        public decimal CalculateSuggestedPrice(decimal markupPercent) =>
+            Cost + (Cost * markupPercent / 100);
 
         public string SayHello()
         {
@@ -120,6 +125,10 @@ namespace Acme.Biz
 
             return $"Hello {ProductName} ({ProductId}): {Description} Available on: {AvailabilityDate?.ToShortDateString()}";
         }
+
+        public override string ToString() =>
+            $"{ProductName} ({ProductId})";
+        
         #endregion
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acme.Common;
 
 namespace Acme.Biz.Tests
 {
@@ -54,6 +55,134 @@ namespace Acme.Biz.Tests
 
             // Assert
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PlaceOrderTest_Product_Null()
+        {
+            //Arrange
+            Product product = null;
+            var vendor = new Vendor();
+            var quantity = 2;
+
+            //Act
+            vendor.PlaceOrder(product, quantity);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void PlaceOrderTest_QuantityInvalid()
+        {
+            //Arrange
+            Product product = new Product();
+            var vendor = new Vendor();
+            var quantity = 0;
+
+            //Act
+            vendor.PlaceOrder(product, quantity);
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_Success()
+        {
+            //Arrange
+            Product product = new Product();
+            var vendor = new Vendor();
+            var quantity = 2;
+            var expected_bool = true;
+            var expected_message =
+                @"Order from Acme, Inc
+Product: Tools: 1
+Quantity: 2";
+
+            //Act
+            var actual = vendor.PlaceOrder(product, quantity);
+
+            //Assert
+            Assert.AreEqual(expected_bool, actual.Success);
+            Assert.AreEqual(expected_message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_Success_3Params()
+        {
+            //Arrange
+            Product product = new Product();
+            var vendor = new Vendor();
+            var quantity = 2;
+            var expected_bool = true;
+            var expected_message =
+                @"Order from Acme, Inc
+Product: Tools: 1
+Quantity: 2
+Deliver By: 4/26/2018";
+
+            //Act
+            var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2018, 4, 26)));
+
+            //Assert
+            Assert.AreEqual(expected_bool, actual.Success);
+            Assert.AreEqual(expected_message, actual.Message);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void PlaceOrderTest_3Params_DateInvalid()
+        {
+            //Arrange
+            Product product = new Product();
+            var vendor = new Vendor();
+            var quantity = 2;
+
+            //Act
+            var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2017, 4, 26)));
+
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_Success_4Params()
+        {
+            //Arrange
+            Product product = new Product();
+            var vendor = new Vendor();
+            var quantity = 2;
+            var expected_bool = true;
+            var expected_message =
+                @"Order from Acme, Inc
+Product: Tools: 1
+Quantity: 2
+Deliver By: 4/26/2018
+Instructions: leave at door.";
+
+            //Act
+            var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2018, 4, 26))," leave at door. ");
+
+            //Assert
+            Assert.AreEqual(expected_bool, actual.Success);
+            Assert.AreEqual(expected_message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_Success_4Params_NoInstructions()
+        {
+            //Arrange
+            Product product = new Product();
+            var vendor = new Vendor();
+            var quantity = 2;
+            var expected_bool = true;
+            var expected_message =
+                @"Order from Acme, Inc
+Product: Tools: 1
+Quantity: 2
+Deliver By: 4/26/2018";
+
+            //Act
+            var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2018, 4, 26)), null);
+
+            //Assert
+            Assert.AreEqual(expected_bool, actual.Success);
+            Assert.AreEqual(expected_message, actual.Message);
         }
     }
 }
