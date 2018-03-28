@@ -56,7 +56,7 @@ namespace Acme.Biz.Tests
 
             //Act
             var actual = companyName;
-            
+
             //Assert
             Assert.AreEqual(expected, actual);
 
@@ -70,6 +70,144 @@ namespace Acme.Biz.Tests
 
             //Act
             var actual = Product.InchesPerMeter * 2;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void MinimumPriceTest_Default()
+        {
+            //Arrange
+            var product = new Product();
+            var expected = .96m;
+
+            //Act
+            var actual = product.MinimumPrice;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void MinimumPriceTest_Bulk()
+        {
+            //Arrange
+            var product = new Product(1, "Bulk iPod", "lost of ipods");
+            var expected = 9.99m;
+
+            //Act
+            var actual = product.MinimumPrice;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ProductName_Format()
+        {
+            //Arrange
+            var product = new Product();
+            var expected = "ACME";
+
+            product.ProductName = "   ACME       ";
+
+            //Act
+            var actual = product.ProductName;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ProductName_TooShort()
+        {
+            //Arrange
+            var product = new Product();
+            var expected = "Product Name must be greater than 3 characters.";
+
+            product.ProductName = "AB";
+
+            //Act
+            var actual = product.ValidationMessage;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ProductName_TooLong()
+        {
+            //Arrange
+            var product = new Product();
+            var expected = "Product Name must be less than 20 characters.";
+
+            product.ProductName = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            //Act
+            var actual = product.ValidationMessage;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ProductName_JustRight()
+        {
+            //Arrange
+            var product = new Product();
+            //var expected = nu;
+
+            product.ProductName = " Pied Piper   ";
+
+            //Act
+            var actual = product.ValidationMessage;
+
+            //Assert
+            Assert.IsNull(actual);
+        }
+
+        [TestMethod]
+        public void ProductCategoryTest()
+        {
+            //Arrange
+            var product = new Product();
+            var expected = "Tools";
+
+            //Act
+            var actual = product.Category;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ProductSequenceNumberTest()
+        {
+            //Arrange
+            var product = new Product();
+            var expected = 1;
+
+            //Act
+            var actual = product.SequenceNumber;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ProductCodeTest()
+        {
+            //Arrange
+            var product = new Product
+            {
+                Category = "Garden",
+                SequenceNumber = 3
+            };
+            var expected = "Garden: 3";
+
+            //Act
+            var actual = product.ProductCode;
 
             //Assert
             Assert.AreEqual(expected, actual);

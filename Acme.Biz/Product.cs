@@ -19,12 +19,17 @@ namespace Acme.Biz
         private Vendor productVendor;
 
         public const double InchesPerMeter = 39.37;
+
+        public readonly decimal MinimumPrice;
+
         #region Constructors
 
         
         public Product()
         {
             //ProductVendor = new Vendor();
+            MinimumPrice = .96m;
+            Category = "Tools";
 
             Console.WriteLine("Product instance created");
         }
@@ -35,6 +40,11 @@ namespace Acme.Biz
             ProductName = productName;
             Description = description;
 
+            if (ProductName.StartsWith("Bulk"))
+            {
+                MinimumPrice = 9.99m;
+            }
+
             Console.WriteLine($"Product instance has a name: {ProductName}");
         }
         #endregion
@@ -43,8 +53,26 @@ namespace Acme.Biz
         
         public string ProductName
         {
-            get { return productName; }
-            set { productName = value; }
+            get
+            {
+                var formattedValue = productName.Trim();
+                return formattedValue;
+            }
+            set
+            {
+                if (value.Length < 3)
+                {
+                    ValidationMessage = "Product Name must be greater than 3 characters.";
+                }
+                else if (value.Length > 20)
+                {
+                    ValidationMessage = "Product Name must be less than 20 characters.";
+                }
+                else
+                {
+                    productName = value;
+                }
+            }
         }
 
         public string Description
@@ -67,7 +95,12 @@ namespace Acme.Biz
             set { productVendor = value; }
         }
 
+        internal string Category { get;  set; }
+        public int SequenceNumber { get; set; } = 1;
+
+        public string ProductCode => $"{Category}: {SequenceNumber}";
         public DateTime? AvailabilityDate { get; set; }
+        public string ValidationMessage { get; private set; }
 
         #endregion
 
