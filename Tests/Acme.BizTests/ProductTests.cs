@@ -23,7 +23,7 @@ namespace Acme.Biz.Tests
             };
             product.ProductVendor.CompanyName = "Acme Inc.";
 
-            var expected = $"Hello Acme (1): test description";
+            var expected = "Hello Acme (1): test description Available on: ";
 
             //Act
             var actual = product.SayHello();
@@ -37,7 +37,7 @@ namespace Acme.Biz.Tests
         {
             //Arrange
             var product = new Product(2, "MI6", "fake agency");
-            var expected = "Hello MI6 (2): fake agency";
+            var expected = "Hello MI6 (2): fake agency Available on: ";
 
             //Act
             var actual = product.SayHello();
@@ -60,6 +60,19 @@ namespace Acme.Biz.Tests
             //Assert
             Assert.AreEqual(expected, actual);
 
+        }
+
+        [TestMethod]
+        public void ConvertMetersToInchesTest()
+        {
+            //Arrange
+            var expected = 78.74;
+
+            //Act
+            var actual = Product.InchesPerMeter * 2;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
