@@ -72,7 +72,7 @@ namespace Acme.Biz.Tests
             var actual = Product.InchesPerMeter * 2;
 
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual); 
         }
 
         [TestMethod]
