@@ -156,7 +156,7 @@ Deliver By: 4/26/2018
 Instructions: leave at door.";
 
             //Act
-            var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2018, 4, 26))," leave at door. ");
+            var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2018, 4, 26)), " leave at door. ");
 
             //Assert
             Assert.AreEqual(expected_bool, actual.Success);
@@ -183,6 +183,38 @@ Deliver By: 4/26/2018";
             //Assert
             Assert.AreEqual(expected_bool, actual.Success);
             Assert.AreEqual(expected_message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_WithAddress()
+        {
+            //Arrange
+            var vendor = new Vendor();
+            var product = new Product();
+            OperationResult expected = new OperationResult(true, "Test With Address");
+
+            //Act
+            var actual = vendor.PlaceOrder(product, 
+                quantity: 12, includeAddress: Vendor.IncludeAddress.yes, sendCopy: Vendor.SendCopy.no);
+
+            //Assert
+            Assert.AreEqual(expected.Message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_WithCopy()
+        {
+            //Arrange
+            var vendor = new Vendor();
+            var product = new Product();
+            OperationResult expected = new OperationResult(true, "Test With Copy");
+
+            //Act
+            var actual = vendor.PlaceOrder(product, quantity: 12, 
+                includeAddress: Vendor.IncludeAddress.no, sendCopy: Vendor.SendCopy.yes);
+
+            //Assert
+            Assert.AreEqual(expected.Message, actual.Message);
         }
     }
 }

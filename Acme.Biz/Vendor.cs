@@ -12,6 +12,12 @@ namespace Acme.Biz
     /// </summary>
     public class Vendor
     {
+        #region Enums
+
+        public enum IncludeAddress { yes, no };
+        public enum SendCopy { yes, no };
+        #endregion
+
         #region Fields
 
         public int VendorId { get; set; }
@@ -51,9 +57,9 @@ namespace Acme.Biz
         /// <param name="quantity">quantity of product to order</param>
         /// <param name="deliverBy">Date to deliver order by</param>
         /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliverBy) 
+        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliverBy)
             => PlaceOrder(product, quantity, deliverBy, null);
-        
+
         /// <summary>
         /// Sends a product order to the vendor.
         /// </summary>
@@ -93,6 +99,26 @@ Quantity: {quantity}";
             }
 
             return new OperationResult(success, orderText);
+        }
+
+        /// <summary>
+        /// Send a product order to the vendor.
+        /// </summary>
+        /// <param name="product">Product to order.</param>
+        /// <param name="quantity">Quantity of the product to order.</param>
+        /// <param name="includeAddress">True to include the shipping address.</param>
+        /// <param name="sendCopy">True to send a copy of the email</param>
+        /// <returns>Success flag and order text.</returns>
+        public OperationResult PlaceOrder(Product product, int quantity, IncludeAddress includeAddress, SendCopy sendCopy)
+        {
+            if (product == null) throw new ArgumentNullException(nameof(product));
+            if (quantity <= 0) throw new ArgumentOutOfRangeException(nameof(quantity));
+
+            var orderText = "Test";
+            if (includeAddress == IncludeAddress.yes) orderText += " With Address";
+            if (sendCopy == SendCopy.yes) orderText += " With Copy";
+
+            return new OperationResult(true, orderText);
         }
         #endregion
 
