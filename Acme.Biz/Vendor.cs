@@ -75,22 +75,25 @@ namespace Acme.Biz
             if (quantity <= 0) throw new ArgumentOutOfRangeException(nameof(quantity));
             if (deliverBy <= DateTimeOffset.Now) throw new ArgumentOutOfRangeException(nameof(deliverBy));
 
+            string orderText;
             var success = false;
             var emailService = new EmailService();
-            var orderText =
+            var orderTextBuilder = new StringBuilder(
 $@"Order from Acme, Inc
 Product: {product.ProductCode}
-Quantity: {quantity}";
+Quantity: {quantity}");
 
             if (deliverBy.HasValue)
             {
-                orderText += $"\r\nDeliver By: {deliverBy.Value.ToString("d")}";
+                orderTextBuilder.Append($"\r\nDeliver By: {deliverBy.Value.ToString("d")}");
             }
 
             if (!String.IsNullOrWhiteSpace(instructions))
             {
-                orderText += $"\r\nInstructions: {instructions.Trim()}";
+                orderTextBuilder.Append($"\r\nInstructions: {instructions.Trim()}");
             }
+
+            orderText = orderTextBuilder.ToString();
 
             var confirmation = emailService.SendMessage("New Order", orderText, Email);
 
@@ -122,9 +125,13 @@ Quantity: {quantity}";
             return new OperationResult(true, orderText);
         }
 
-        public override string ToString()
+        public override string ToString() => $"Vendor: {CompanyName}";
+
+        public string PrepareDirections()
         {
-            return $"Vendor: {CompanyName}";
+            var directions = @"Insert \r\n to define a new line";
+
+            return directions;
         }
         #endregion
 
