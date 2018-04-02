@@ -41,24 +41,24 @@ namespace Acme.Biz
             return confirmation;
         }
 
-        /// <summary>
-        /// Sends a product order to the vendor.
-        /// </summary>
-        /// <param name="product">product to order.</param>
-        /// <param name="quantity">quantity of product to order</param>
-        /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity) =>
-            PlaceOrder(product, quantity, null, null);
+        ///// <summary>
+        ///// Sends a product order to the vendor.
+        ///// </summary>
+        ///// <param name="product">product to order.</param>
+        ///// <param name="quantity">quantity of product to order</param>
+        ///// <returns></returns>
+        //public OperationResult PlaceOrder(Product product, int quantity) =>
+        //    PlaceOrder(product, quantity, null, null);
 
-        /// <summary>
-        /// Sends a product order to the vendor.
-        /// </summary>
-        /// <param name="product">product to order.</param>
-        /// <param name="quantity">quantity of product to order</param>
-        /// <param name="deliverBy">Date to deliver order by</param>
-        /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliverBy)
-            => PlaceOrder(product, quantity, deliverBy, null);
+        ///// <summary>
+        ///// Sends a product order to the vendor.
+        ///// </summary>
+        ///// <param name="product">product to order.</param>
+        ///// <param name="quantity">quantity of product to order</param>
+        ///// <param name="deliverBy">Date to deliver order by</param>
+        ///// <returns></returns>
+        //public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliverBy)
+        //    => PlaceOrder(product, quantity, deliverBy, null);
 
         /// <summary>
         /// Sends a product order to the vendor.
@@ -68,7 +68,8 @@ namespace Acme.Biz
         /// <param name="deliverBy">Date to deliver order by</param>
         /// <param name="instructions">Instructions for order</param>
         /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliverBy, string instructions)
+        public OperationResult PlaceOrder(Product product, int quantity, 
+            DateTimeOffset? deliverBy = null, string instructions = "standard delivery")
         {
             if (product == null) throw new ArgumentNullException(nameof(product));
             if (quantity <= 0) throw new ArgumentOutOfRangeException(nameof(quantity));

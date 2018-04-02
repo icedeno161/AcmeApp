@@ -94,7 +94,8 @@ namespace Acme.Biz.Tests
             var expected_message =
                 @"Order from Acme, Inc
 Product: Tools: 1
-Quantity: 2";
+Quantity: 2
+Instructions: standard delivery";
 
             //Act
             var actual = vendor.PlaceOrder(product, quantity);
@@ -116,7 +117,8 @@ Quantity: 2";
                 @"Order from Acme, Inc
 Product: Tools: 1
 Quantity: 2
-Deliver By: 4/26/2018";
+Deliver By: 4/26/2018
+Instructions: standard delivery";
 
             //Act
             var actual = vendor.PlaceOrder(product, quantity, new DateTimeOffset(new DateTime(2018, 4, 26)));
