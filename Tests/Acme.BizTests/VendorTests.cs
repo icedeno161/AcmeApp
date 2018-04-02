@@ -196,7 +196,7 @@ Deliver By: 4/26/2018";
             OperationResult expected = new OperationResult(true, "Test With Address");
 
             //Act
-            var actual = vendor.PlaceOrder(product, 
+            var actual = vendor.PlaceOrder(product,
                 quantity: 12, includeAddress: Vendor.IncludeAddress.yes, sendCopy: Vendor.SendCopy.no);
 
             //Assert
@@ -212,11 +212,28 @@ Deliver By: 4/26/2018";
             OperationResult expected = new OperationResult(true, "Test With Copy");
 
             //Act
-            var actual = vendor.PlaceOrder(product, quantity: 12, 
+            var actual = vendor.PlaceOrder(product, quantity: 12,
                 includeAddress: Vendor.IncludeAddress.no, sendCopy: Vendor.SendCopy.yes);
 
             //Assert
             Assert.AreEqual(expected.Message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void VendorToStringTest()
+        {
+            //Arrange
+            var vendor = new Vendor
+            {
+                CompanyName = "Sweet Water"
+            };
+            var expected = "Vendor: Sweet Water";
+
+            //Act
+            var actual = vendor.ToString();
+
+            //Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }

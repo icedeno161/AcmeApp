@@ -68,7 +68,7 @@ namespace Acme.Biz
         /// <param name="deliverBy">Date to deliver order by</param>
         /// <param name="instructions">Instructions for order</param>
         /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity, 
+        public OperationResult PlaceOrder(Product product, int quantity,
             DateTimeOffset? deliverBy = null, string instructions = "standard delivery")
         {
             if (product == null) throw new ArgumentNullException(nameof(product));
@@ -120,6 +120,11 @@ Quantity: {quantity}";
             if (sendCopy == SendCopy.yes) orderText += " With Copy";
 
             return new OperationResult(true, orderText);
+        }
+
+        public override string ToString()
+        {
+            return $"Vendor: {CompanyName}";
         }
         #endregion
 
